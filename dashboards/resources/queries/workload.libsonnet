@@ -35,13 +35,13 @@
 
   cpuThrottling(config):: |||
     sum(
-        increase(container_cpu_cfs_throttled_periods_total{%(cadvisorSelector)s, %(clusterLabel)s="$cluster", namespace="$namespace"}[%(grafanaIntervalVar)s])
+        increase(container_cpu_cfs_throttled_periods_total{%(cadvisorSelector)s, %(clusterLabel)s="$cluster", namespace="$namespace", container!=""}[%(grafanaIntervalVar)s])
       * on(%(clusterLabel)s, namespace, pod)
         group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{%(clusterLabel)s="$cluster", namespace="$namespace", workload=~"$workload", workload_type=~"$type"}
     ) by (pod)
     /
     sum(
-        increase(container_cpu_cfs_periods_total{%(cadvisorSelector)s, %(clusterLabel)s="$cluster", namespace="$namespace"}[%(grafanaIntervalVar)s])
+        increase(container_cpu_cfs_periods_total{%(cadvisorSelector)s, %(clusterLabel)s="$cluster", namespace="$namespace", container!=""}[%(grafanaIntervalVar)s])
       * on(%(clusterLabel)s, namespace, pod)
         group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{%(clusterLabel)s="$cluster", namespace="$namespace", workload=~"$workload", workload_type=~"$type"}
     ) by (pod)
@@ -49,7 +49,7 @@
 
   cpuThrottledSeconds(config):: |||
     sum(
-        increase(container_cpu_cfs_throttled_seconds_total{%(cadvisorSelector)s, %(clusterLabel)s="$cluster", namespace="$namespace"}[%(grafanaIntervalVar)s])
+        increase(container_cpu_cfs_throttled_seconds_total{%(cadvisorSelector)s, %(clusterLabel)s="$cluster", namespace="$namespace", container!=""}[%(grafanaIntervalVar)s])
       * on(%(clusterLabel)s, namespace, pod)
         group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{%(clusterLabel)s="$cluster", namespace="$namespace", workload=~"$workload", workload_type=~"$type"}
     ) by (pod)
